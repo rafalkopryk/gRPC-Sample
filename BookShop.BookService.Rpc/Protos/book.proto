@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+option csharp_namespace = "BookShop.BookService.Rpc";
+
+package BookRpc;
+
+import "google/protobuf/timestamp.proto";
+
+
+service BookRpc {
+  rpc GetBooks (GetBooksRequest) returns (GetBooksReply);
+  rpc AddBook (AddBookRequest) returns (AddBookReply);
+  rpc ArchiveBook (ArchiveBookRequest) returns (ArchiveBookReply);
+  rpc LockBook (LockBookRequest) returns (LockBookReply);
+
+}
+
+//GetBooks
+
+message GetBooksRequest {
+}
+
+message GetBooksReply {
+	repeated Book books = 3;
+
+	message Book{
+		int32 id = 1;
+		string title = 2;
+		google.protobuf.Timestamp release_date = 3;
+		string status = 4;
+	}
+}
+
+//AddBook
+
+message AddBookRequest{
+	string title = 1;
+	google.protobuf.Timestamp release_date = 2;
+}
+
+message AddBookReply {
+}
+
+//ArchiveBook
+
+message ArchiveBookRequest{
+	int32 id = 1;
+}
+
+message ArchiveBookReply {
+}
+
+//LockBook
+
+message LockBookRequest{
+	int32 id = 1;
+}
+
+message LockBookReply {
+}
