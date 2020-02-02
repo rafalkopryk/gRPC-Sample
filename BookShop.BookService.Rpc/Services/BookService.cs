@@ -1,12 +1,10 @@
 ﻿using BookShop.BookService.Domain.Messages.Commands;
 using BookShop.BookService.Domain.Messages.Queries;
+using BookShop.BookService.Rpc.Mappers.Books;
 using BookShop.BookService.Rpc.Utils;
-using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using MediatR;
-using System.Linq;
 using System.Threading.Tasks;
-using static BookShop.BookService.Rpc.GetBooksReply.Types;
 
 namespace BookShop.BookService.Rpc.Services
 {
@@ -29,14 +27,7 @@ namespace BookShop.BookService.Rpc.Services
                 throw new RpcException(getBooksResult.ToStatus(), getBooksResult.Error?.Description);
 
             var books = getBooksResult.Value?
-                .Select(x => new Book
-                {
-                    Id = x.BookId,
-                    Title = x.Title,
-                    ReleaseDate = Timestamp.FromDateTime(x.ReleaseDate),
-                    Status = x.Status?.Status.ToString()
-                })
-                .ToList();
+                .ToRpcModel();
 
             return new GetBooksReply
             {
