@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace BookShop.Getway.Application.Models.Books
+﻿namespace BookShop.Getway.Application.Models.Books
 {
+    using System;
+
     public class Book
     {
         public int Id { get; }

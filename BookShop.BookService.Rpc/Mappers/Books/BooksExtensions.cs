@@ -1,26 +1,34 @@
-﻿using BookShop.BookService.Domain.Domain;
-using Google.Protobuf.Collections;
-using Google.Protobuf.WellKnownTypes;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace BookShop.BookService.Rpc.Mappers.Books
+﻿namespace BookShop.BookService.Rpc.Mappers.Books
 {
+    using BookShop.BookService.Domain.Domain;
+    using Google.Protobuf.Collections;
+    using Google.Protobuf.WellKnownTypes;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public static class BooksExtensions
     {
         public static GetBooksReply.Types.Book ToRpcModel(this Book book)
-           => new GetBooksReply.Types.Book
-           {
-               Id = book.BookId,
-               Title = book.Title,
-               ReleaseDate = Timestamp.FromDateTime(book.ReleaseDate),
-               Status = book.Status?.Status.ToString()
-           };
+        {
+            if(book is null)
+            {
+                return null;
+            }
+
+            return new GetBooksReply.Types.Book
+            {
+                Id = book.BookId,
+                Title = book.Title,
+                ReleaseDate = Timestamp.FromDateTime(book.ReleaseDate),
+                Status = book.Status?.Status.ToString()
+            };
+        }
 
         public static RepeatedField<GetBooksReply.Types.Book> ToRpcModel(this IEnumerable<Book> books)
         {
             var convertedBooks = books
                 .Select(x => x.ToRpcModel())
+                .Where(x => x is not null)
                 .ToList();
             
             return new RepeatedField<GetBooksReply.Types.Book>() { convertedBooks };

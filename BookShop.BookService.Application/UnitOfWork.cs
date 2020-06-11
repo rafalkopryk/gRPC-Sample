@@ -1,9 +1,9 @@
-﻿using BookShop.BookService.Domain.Domain;
-using Microsoft.EntityFrameworkCore;
-using System.Diagnostics.CodeAnalysis;
-
-namespace BookShop.BookService.Application
+﻿namespace BookShop.BookService.Application
 {
+    using BookShop.BookService.Domain.Domain;
+    using Microsoft.EntityFrameworkCore;
+    using System.Diagnostics.CodeAnalysis;
+
     public class UnitOfWork : DbContext
     {
         public UnitOfWork([NotNullAttribute] DbContextOptions<UnitOfWork> options) : base(options)

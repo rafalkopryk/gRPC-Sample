@@ -1,14 +1,13 @@
-﻿using BookShop.Getway.Application.Handlers.Books;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-
-namespace BookShop.BookService.Application.Extensions
+﻿namespace BookShop.BookService.Application.Extensions
 {
+    using BookShop.Getway.Application.Handlers.Books;
+    using MediatR;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.DependencyInjection;
+
     public static class BookServiceConfig
     {
-        public static void AddApplication(this IServiceCollection services, IConfiguration configuration)
+        public static void AddApplication(this IServiceCollection services)
         {
             services.AddMediatR(typeof(AddBookHandler).Assembly);
 

@@ -1,9 +1,9 @@
-﻿using BookShop.Common.Utils;
-using Grpc.Core;
-using System;
-
-namespace BookShop.Getway.Application.Extensions
+﻿namespace BookShop.Getway.Application.Extensions
 {
+    using BookShop.Common.Utils;
+    using Grpc.Core;
+    using System;
+
     public static class StatusExtensions
     {
         public static Error ToError(this Status status)
@@ -12,7 +12,7 @@ namespace BookShop.Getway.Application.Extensions
                 ? errorCodeValue
                 : ErrorCode.Unknown;
 
-            return new Error(status.Detail, errorCode);
+            return new Error(errorCode, status.Detail);
         }
     }
 }

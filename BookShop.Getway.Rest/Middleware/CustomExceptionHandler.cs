@@ -1,15 +1,14 @@
-﻿using System;
-using System.Net;
-using System.Text.Json;
-using System.Threading.Tasks;
-using BookShop.Getway.Rest.Utils;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
-
-namespace BookShop.Getway.Rest.Middleware
+﻿namespace BookShop.Getway.Rest.Middleware
 {
-    // You may need to install the Microsoft.AspNetCore.Http.Abstractions package into your project
+    using System;
+    using System.Net;
+    using System.Text.Json;
+    using System.Threading.Tasks;
+    using BookShop.Getway.Rest.Utils;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.Extensions.Logging;
+
     public class CustomExceptionHandler
     {
         private readonly RequestDelegate _next;
@@ -25,11 +24,13 @@ namespace BookShop.Getway.Rest.Middleware
         {
             try
             {
-                await _next(httpContext);
+                await _next(httpContext).ConfigureAwait(false);
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception e)
+#pragma warning restore CA1031 // Do not catch general exception types
             {
-                await HandleExceptionAsync(httpContext, e);
+                await HandleExceptionAsync(httpContext, e).ConfigureAwait(false);
             }
             finally
             {
@@ -37,7 +38,7 @@ namespace BookShop.Getway.Rest.Middleware
             }
         }
 
-        private Task HandleExceptionAsync(HttpContext httpContext, Exception e)
+        private static Task HandleExceptionAsync(HttpContext httpContext, Exception e)
         {
             var json = JsonSerializer.Serialize(Envelope.Error(e));
             httpContext.Response.ContentType = "application/json";
@@ -46,7 +47,6 @@ namespace BookShop.Getway.Rest.Middleware
         }
     }
 
-    // Extension method used to add the middleware to the HTTP request pipeline.
     public static class CustomExceptionHandlerExtensions
     {
         public static IApplicationBuilder UseCustomExceptionHandler(this IApplicationBuilder builder)

@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace BookShop.BookService.Domain.Messages.Commands
+﻿namespace BookShop.BookService.Domain.Messages.Commands
 {
+    using System;
+
     public class AddBook: ICommand
     {
         public AddBook(string title, DateTime releaseDate)

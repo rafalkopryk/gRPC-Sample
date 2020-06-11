@@ -1,11 +1,11 @@
-﻿using BookShop.BookService.Domain.Messages.Commands;
-using BookShop.BookService.Domain.ValueObjects;
-using BookShop.Common.Utils;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace BookShop.BookService.Application.Handlers
+﻿namespace BookShop.BookService.Application.Handlers
 {
+    using BookShop.BookService.Domain.Messages.Commands;
+    using BookShop.BookService.Domain.ValueObjects;
+    using BookShop.Common.Utils;
+    using System.Threading;
+    using System.Threading.Tasks;
+
     public class LockBookHandler : ICommandHandler<LockBook>
     {
         private readonly UnitOfWork _unitOfWork;
@@ -17,6 +17,11 @@ namespace BookShop.BookService.Application.Handlers
 
         public async Task<Result> Handle(LockBook request, CancellationToken cancellationToken)
         {
+            if (request is null)
+            {
+                return Result.Failure(new Error(ErrorCode.InvalidArgument, $"{nameof(request)} is null"));
+            }
+
             var book = await _unitOfWork.Books
                 .FindAsync(new object[] { request.BookId }, cancellationToken)
                 .ConfigureAwait(false);

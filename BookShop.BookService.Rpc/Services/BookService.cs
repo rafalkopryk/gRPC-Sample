@@ -1,13 +1,13 @@
-﻿using BookShop.BookService.Domain.Messages.Commands;
-using BookShop.BookService.Domain.Messages.Queries;
-using BookShop.BookService.Rpc.Mappers.Books;
-using BookShop.BookService.Rpc.Utils;
-using Grpc.Core;
-using MediatR;
-using System.Threading.Tasks;
-
-namespace BookShop.BookService.Rpc.Services
+﻿namespace BookShop.BookService.Rpc.Services
 {
+    using BookShop.BookService.Domain.Messages.Commands;
+    using BookShop.BookService.Domain.Messages.Queries;
+    using BookShop.BookService.Rpc.Mappers.Books;
+    using BookShop.BookService.Rpc.Extensions;
+    using Grpc.Core;
+    using MediatR;
+    using System.Threading.Tasks;
+
     public class BookService : BookRpc.BookRpcBase
     {
         private readonly IMediator _mediator;

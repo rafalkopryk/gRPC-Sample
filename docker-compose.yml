@@ -1,0 +1,24 @@
+version: '3.4'
+
+services:
+  bookshop.bookservice.rpc:
+    image: ${DOCKER_REGISTRY-}bookshopbookservicerpc
+    container_name: BookShop.BookService
+    networks:
+      - bookshop-container-network
+    build:
+      context: .
+      dockerfile: BookShop.BookService.Rpc/Dockerfile
+
+  bookshop.getway.rest:
+    image: ${DOCKER_REGISTRY-}bookshopgetwayrest
+    container_name: BookShop.Getway
+    networks:
+      - bookshop-container-network
+    build:
+      context: .
+      dockerfile: BookShop.Getway.Rest/Dockerfile
+
+networks:
+    bookshop-container-network:  
+        external: true

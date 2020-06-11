@@ -1,8 +1,8 @@
-﻿using BookShop.Common.Utils;
-using MediatR;
-
-namespace BookShop.Getway.Application.Messages
+﻿namespace BookShop.Getway.Application.Messages
 {
+    using BookShop.Common.Utils;
+    using MediatR;
+
     public interface ICommand : IRequest<Result>
     {
     }

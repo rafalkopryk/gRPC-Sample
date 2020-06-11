@@ -1,8 +1,8 @@
-﻿using BookShop.Common.Utils;
-using Microsoft.AspNetCore.Mvc;
-
-namespace BookShop.Getway.Rest.Utils
+﻿namespace BookShop.Getway.Rest.Utils
 {
+    using BookShop.Common.Utils;
+    using Microsoft.AspNetCore.Mvc;
+
     public class BaseController : Controller
     {
         protected new IActionResult Ok()
@@ -12,12 +12,12 @@ namespace BookShop.Getway.Rest.Utils
             => base.Ok(Envelope.Ok(result));
 
         protected IActionResult Error(Error errorMessage)
-            => BadRequest(Envelope.Error(errorMessage));
+            => base.BadRequest(Envelope.Error(errorMessage));
 
         protected IActionResult FromResult<T>(Result<T> result)
-            => result.IsSuccess ? Ok(result.Value) : Error(result.Error);
+            => result?.IsSuccess is true ? Ok(result.Value) : Error(result?.Error);
 
         protected IActionResult FromResult(Result result)
-            => result.IsSuccess ? Ok() : Error(result.Error);
+            => result?.IsSuccess is true ? Ok() : Error(result?.Error);
     }
 }

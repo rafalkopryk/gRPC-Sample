@@ -1,31 +1,31 @@
-﻿using BookShop.Getway.Application.Abstractions;
-using BookShop.Getway.Application.Messages.Commands;
-using BookShop.Getway.Application.Models.Books;
-using BookShop.Getway.Rest.Dtos;
-using BookShop.Getway.Rest.Utils;
-using MediatR;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace BookShop.Getway.Rest.Controllers
+﻿namespace BookShop.Getway.Rest.Controllers
 {
+    using BookShop.Getway.Application.Abstractions;
+    using BookShop.Getway.Application.Messages.Commands;
+    using BookShop.Getway.Application.Models.Books;
+    using BookShop.Getway.Rest.Dtos;
+    using BookShop.Getway.Rest.Utils;
+    using MediatR;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
     [ApiController]
     [Route("api/[controller]")]
     public class BooksController : BaseController
     {
-        private readonly IBookService _bookService;
+        private readonly IBookProvider _bookService;
         private readonly IMediator _mediator;
 
-        public BooksController(IBookService bookService, IMediator mediator)
+        public BooksController(IBookProvider bookService, IMediator mediator)
         {
             _bookService = bookService;
             _mediator = mediator;
         }
 
-        [ProducesResponseType(typeof(Envelope<IList<Book>>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(Envelope<IList<Book>>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(Envelope<IReadOnlyList<Book>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Envelope<IReadOnlyList<Book>>), StatusCodes.Status400BadRequest)]
         [HttpGet]
         public async Task<IActionResult> GetBooks()
         {
@@ -42,7 +42,7 @@ namespace BookShop.Getway.Rest.Controllers
         public async Task<IActionResult> AddBook([FromBody] AddBookDto request)
         {
             var result = await _mediator
-                .Send(new AddBook(request.Title, request.ReleaseDate))
+                .Send(new AddBook(request?.Title, request.ReleaseDate))
                 .ConfigureAwait(false);
             
             return FromResult(result);

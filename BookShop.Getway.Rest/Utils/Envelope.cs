@@ -1,15 +1,14 @@
-﻿using BookShop.Common.Utils;
-using BookShop.Getway.Application.Extensions;
-using Grpc.Core;
-using System;
-
-namespace BookShop.Getway.Rest.Utils
+﻿namespace BookShop.Getway.Rest.Utils
 {
+    using BookShop.Common.Utils;
+    using System;
+    using System.Collections.Generic;
+
     public sealed class Envelope<T> : Envelope
     {
         public T Result { get; }
 
-        public Envelope(T result, Status status, Error[] errors) : base(status, errors)
+        public Envelope(T result, Status status, IReadOnlyList<Error> errors) : base(status, errors)
         {
             Result = result;
         }
@@ -19,11 +18,11 @@ namespace BookShop.Getway.Rest.Utils
     {
         public Status Status { get; }
 
-        public Error[] Errors { get; }
+        public IReadOnlyList<Error> Errors { get; }
         
         public DateTime TimeGenerated { get; }
 
-        protected Envelope(Status status, Error[] errors)
+        protected Envelope(Status status, IReadOnlyList<Error> errors)
         {
             Status = status;
             Errors = errors;
@@ -47,7 +46,7 @@ namespace BookShop.Getway.Rest.Utils
 
         public static Envelope Error(Exception exception)
         {
-            var error = new Error(exception.Message, ErrorCode.Internal);
+            var error = new Error(ErrorCode.Internal, exception?.Message);
             return Error(error);
         }
     }

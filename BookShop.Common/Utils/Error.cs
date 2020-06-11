@@ -2,14 +2,14 @@
 {
     public class Error
     {
-        public Error(string description, ErrorCode code)
+        public Error(ErrorCode code, string description)
         {
             Description = description;
             Code = code;
         }
 
-        public string Description { get; private set; }
+        public string Description { get; }
 
-        public ErrorCode Code { get; private set; }
+        public ErrorCode Code { get; }
     }
 }

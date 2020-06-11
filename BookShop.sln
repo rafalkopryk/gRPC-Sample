@@ -17,7 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookShop.Getway.Application
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookShop.BookService.Domain", "BookShop.BookService.Domain\BookShop.BookService.Domain.csproj", "{55C33BCD-A1B4-46C3-8E70-71D833A9C894}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookShop.Common", "BookShop.Common\BookShop.Common.csproj", "{D8A761EF-5AC8-4E52-B63C-98E15070CA06}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookShop.Common", "BookShop.Common\BookShop.Common.csproj", "{D8A761EF-5AC8-4E52-B63C-98E15070CA06}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{868B9C87-D6B1-4D95-BF74-97F57E175347}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +51,10 @@ Global
 		{D8A761EF-5AC8-4E52-B63C-98E15070CA06}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D8A761EF-5AC8-4E52-B63C-98E15070CA06}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D8A761EF-5AC8-4E52-B63C-98E15070CA06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{868B9C87-D6B1-4D95-BF74-97F57E175347}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{868B9C87-D6B1-4D95-BF74-97F57E175347}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{868B9C87-D6B1-4D95-BF74-97F57E175347}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{868B9C87-D6B1-4D95-BF74-97F57E175347}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,8 +1,8 @@
-﻿using BookShop.Common.Utils;
-using MediatR;
-
-namespace BookShop.BookService.Domain
+﻿namespace BookShop.BookService.Domain
 {
+    using BookShop.Common.Utils;
+    using MediatR;
+
     public interface ICommand : IRequest<Result>
     {
     }

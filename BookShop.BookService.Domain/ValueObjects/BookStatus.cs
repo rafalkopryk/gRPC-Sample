@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using CSharpFunctionalExtensions;
-
-namespace BookShop.BookService.Domain.ValueObjects
+﻿namespace BookShop.BookService.Domain.ValueObjects
 {
+    using System;
+    using System.Collections.Generic;
+    using CSharpFunctionalExtensions;
+
     public class BookStatus : ValueObject
     {
         public StatusBookEnum Status { get; protected set; }
@@ -16,9 +16,11 @@ namespace BookShop.BookService.Domain.ValueObjects
             StatusDate = DateTime.Now;
         }
 
-        public static BookStatus Available => new BookStatus(StatusBookEnum.Available);
-        public static BookStatus Unavailable => new BookStatus(StatusBookEnum.Unavailable);
-        public static BookStatus Archive => new BookStatus(StatusBookEnum.Archive);
+        public static BookStatus Available => new (StatusBookEnum.Available);
+        public static BookStatus Unavailable => new (StatusBookEnum.Unavailable);
+        public static BookStatus Archive => new (StatusBookEnum.Archive);
+
+        public bool IsArchive => Status == StatusBookEnum.Archive;
 
         protected override IEnumerable<object> GetEqualityComponents()
         {

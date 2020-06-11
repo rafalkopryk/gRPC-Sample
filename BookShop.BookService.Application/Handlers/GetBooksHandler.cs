@@ -1,15 +1,15 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using BookShop.BookService.Domain.Domain;
-using BookShop.BookService.Domain.Messages.Queries;
-using BookShop.Common.Utils;
-using Microsoft.EntityFrameworkCore;
-using static BookShop.BookService.Domain.ValueObjects.BookStatus;
-
-namespace BookShop.BookService.Application.Handlers
+﻿namespace BookShop.BookService.Application.Handlers
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using BookShop.BookService.Domain.Domain;
+    using BookShop.BookService.Domain.Messages.Queries;
+    using BookShop.Common.Utils;
+    using Microsoft.EntityFrameworkCore;
+    using static BookShop.BookService.Domain.ValueObjects.BookStatus;
+
     public class GetBooksHandler : IQueryHandler<GetBooks, IReadOnlyList<Book>>
     {
         private readonly UnitOfWork _unitOfWork;
@@ -23,9 +23,10 @@ namespace BookShop.BookService.Application.Handlers
         {
             var books = await _unitOfWork
                 .Books
-                .Where(x => new[] { StatusBookEnum.Unavailable, StatusBookEnum.Available }.Contains(x.Status.Status))
+                .Where(x => x.Status.Status != StatusBookEnum.Archive)
                 .AsNoTracking()
-                .ToListAsync() as IReadOnlyList<Book>;
+                .ToListAsync()
+                .ConfigureAwait(false) as IReadOnlyList<Book>;
 
             return Result.Success(books);
         }

@@ -2,7 +2,7 @@
 using Grpc.Core;
 using System;
 
-namespace BookShop.BookService.Rpc.Utils
+namespace BookShop.BookService.Rpc.Extensions
 {
     public static class ResultExtensions
     {

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace BookShop.Common.Utils
+﻿namespace BookShop.Common.Utils
 {
     public class Result
     {
@@ -43,26 +41,26 @@ namespace BookShop.Common.Utils
 
         public static Result Failure(string description)
         {
-            var error = new Error(description, ErrorCode.Unknown);
+            var error = new Error(ErrorCode.Unknown, description);
             return Result.Failure(error);
         }
 
         public static Result Failure(ErrorCode code, string description)
         {
-            var error = new Error(description, code);
+            var error = new Error(code, description);
             return Result.Failure(error);
         }
 
         public static Result<T> Failure<T>(ErrorCode code, string description)
         {
-            var error = new Error(description, code);
-            return Result.Failure<T>(error);
+            var error = new Error(code, description);
+            return Failure<T>(error);
         }
 
         public static Result<T> Failure<T>(string description)
         {
-            var error = new Error(description, ErrorCode.Unknown);
-            return Result.Failure<T>(error);
+            var error = new Error(ErrorCode.Unknown, description);
+            return Failure<T>(error);
         }
 
     }

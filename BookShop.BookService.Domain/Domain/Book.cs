@@ -1,9 +1,9 @@
-﻿using BookShop.BookService.Domain.ValueObjects;
-using BookShop.Common.Utils;
-using System;
-
-namespace BookShop.BookService.Domain.Domain
+﻿namespace BookShop.BookService.Domain.Domain
 {
+    using BookShop.BookService.Domain.ValueObjects;
+    using BookShop.Common.Utils;
+    using System;
+
     public class Book
     {
         public int BookId { get; protected set; }
@@ -12,8 +12,8 @@ namespace BookShop.BookService.Domain.Domain
 
         public BookStatus Status { get; protected set; }
 
-        public DateTime ReleaseDate { get; set; }
-        
+        public DateTime ReleaseDate { get; protected set; }
+
         protected Book()
         {
         }
@@ -25,9 +25,9 @@ namespace BookShop.BookService.Domain.Domain
             Status = BookStatus.Available;
         }
 
-        public Result CanChangeStatus(BookStatus status = null)
+        public Result CanChangeStatus(BookStatus status)
         {
-            return Status == BookStatus.Archive && status != BookStatus.Archive
+            return Status.IsArchive is true && status?.IsArchive is not true
                 ? Result.Failure("Book is Archive")
                 : Result.Success();
         }

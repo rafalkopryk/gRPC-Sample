@@ -1,12 +1,12 @@
-﻿using BookShop.Common.Utils;
-using BookShop.Getway.Application.Extensions;
-using BookShop.Getway.Application.Messages;
-using Grpc.Core;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace BookShop.Getway.Application.Handlers.Books
+﻿namespace BookShop.Getway.Application.Handlers.Books
 {
+    using BookShop.Common.Utils;
+    using BookShop.Getway.Application.Extensions;
+    using BookShop.Getway.Application.Messages;
+    using Grpc.Core;
+    using System.Threading;
+    using System.Threading.Tasks;
+
     public class RpcExceptionCommandHandlerDecorator<T> : ICommandHandler<T> where T : ICommand
     {
         private readonly ICommandHandler<T> _commandHandler;
