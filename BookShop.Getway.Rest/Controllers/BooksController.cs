@@ -6,6 +6,7 @@
     using BookShop.Getway.Rest.Dtos;
     using BookShop.Getway.Rest.Utils;
     using MediatR;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using System.Collections.Generic;
@@ -13,6 +14,7 @@
 
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class BooksController : BaseController
     {
         private readonly IBookProvider _bookService;
