@@ -1,9 +1,10 @@
-﻿using BookShop.Common.Utils;
-using Grpc.Core;
-using System;
-
-namespace BookShop.BookService.Rpc.Extensions
+﻿namespace BookShop.BookService.Rpc.Extensions
 {
+    using System;
+
+    using BookShop.Common.Utils;
+    using Grpc.Core;
+
     public static class ResultExtensions
     {
         public static Status ToStatus(this Result result)
@@ -12,9 +13,9 @@ namespace BookShop.BookService.Rpc.Extensions
                 ? statusCodeValue
                 : StatusCode.Unknown;
 
-            return result.IsFailure
+            return !result.IsSuccess
                 ? new Status(statusCode, result.Error.Description)
-                : new Status();
+                : default;
         }
     }
 }

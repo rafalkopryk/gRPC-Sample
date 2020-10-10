@@ -2,7 +2,6 @@ namespace BookShop.Getway.Rest
 {
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Hosting;
-    using System;
 
 #pragma warning disable CA1052 // Static holder types should be Static or NotInheritable
     public class Program

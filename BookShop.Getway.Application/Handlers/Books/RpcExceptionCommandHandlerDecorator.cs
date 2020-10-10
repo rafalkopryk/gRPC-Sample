@@ -1,26 +1,29 @@
 ﻿namespace BookShop.Getway.Application.Handlers.Books
 {
-    using BookShop.Common.Utils;
-    using BookShop.Getway.Application.Extensions;
-    using BookShop.Getway.Application.Messages;
-    using Grpc.Core;
     using System.Threading;
     using System.Threading.Tasks;
 
-    public class RpcExceptionCommandHandlerDecorator<T> : ICommandHandler<T> where T : ICommand
+    using BookShop.Common.Utils;
+    using BookShop.Getway.Application.Extensions;
+    using BookShop.Getway.Application.Messages;
+
+    using Grpc.Core;
+
+    public class RpcExceptionCommandHandlerDecorator<T> : ICommandHandler<T>
+        where T : ICommand
     {
-        private readonly ICommandHandler<T> _commandHandler;
+        private readonly ICommandHandler<T> commandHandler;
 
         public RpcExceptionCommandHandlerDecorator(ICommandHandler<T> commandHandler)
         {
-            _commandHandler = commandHandler;
+            this.commandHandler = commandHandler;
         }
 
         public async Task<Result> Handle(T request, CancellationToken cancellationToken)
         {
             try
             {
-                return await _commandHandler.Handle(request, cancellationToken)
+                return await this.commandHandler.Handle(request, cancellationToken)
                     .ConfigureAwait(false);
             }
             catch (RpcException exception)

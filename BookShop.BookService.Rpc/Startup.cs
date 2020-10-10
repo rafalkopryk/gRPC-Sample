@@ -1,6 +1,7 @@
 ﻿namespace BookShop.BookService.Rpc
 {
     using BookShop.BookService.Application.Extensions;
+
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -12,11 +13,10 @@
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            this.Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
-
 
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
@@ -24,7 +24,6 @@
         public void ConfigureServices(IServiceCollection services)
 #pragma warning restore CA1822 // Mark members as static
         {
-
             services.AddApplication();
 
             services.AddGrpc();

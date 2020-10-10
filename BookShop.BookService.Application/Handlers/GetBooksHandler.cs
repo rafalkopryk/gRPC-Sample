@@ -12,16 +12,16 @@
 
     public class GetBooksHandler : IQueryHandler<GetBooks, IReadOnlyList<Book>>
     {
-        private readonly UnitOfWork _unitOfWork;
+        private readonly UnitOfWork unitOfWork;
 
         public GetBooksHandler(UnitOfWork unitOfWork)
         {
-            _unitOfWork = unitOfWork;
+            this.unitOfWork = unitOfWork;
         }
 
         public async Task<Result<IReadOnlyList<Book>>> Handle(GetBooks request, CancellationToken cancellationToken)
         {
-            var books = await _unitOfWork
+            var books = await this.unitOfWork
                 .Books
                 .Where(x => x.Status.Status != StatusBookEnum.Archive)
                 .AsNoTracking()

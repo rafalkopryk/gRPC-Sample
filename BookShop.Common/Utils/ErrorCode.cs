@@ -6,6 +6,6 @@
         InvalidArgument,
         NotFound,
         AlreadyExists,
-        Internal
+        Internal,
     }
 }

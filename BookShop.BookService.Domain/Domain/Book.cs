@@ -1,11 +1,23 @@
 ﻿namespace BookShop.BookService.Domain.Domain
 {
+    using System;
+
     using BookShop.BookService.Domain.ValueObjects;
     using BookShop.Common.Utils;
-    using System;
 
     public class Book
     {
+        public Book(string title, DateTime releaseDate)
+        {
+            this.Title = title;
+            this.ReleaseDate = releaseDate;
+            this.Status = BookStatus.Available;
+        }
+
+        protected Book()
+        {
+        }
+
         public int BookId { get; protected set; }
 
         public string Title { get; protected set; }
@@ -14,33 +26,22 @@
 
         public DateTime ReleaseDate { get; protected set; }
 
-        protected Book()
-        {
-        }
-
-        public Book(string title, DateTime releaseDate)
-        {
-            Title = title;
-            ReleaseDate = releaseDate;
-            Status = BookStatus.Available;
-        }
-
         public Result CanChangeStatus(BookStatus status)
         {
-            return Status.IsArchive is true && status?.IsArchive is not true
+            return this.Status.IsArchive is true && status?.IsArchive is not true
                 ? Result.Failure("Book is Archive")
                 : Result.Success();
         }
 
         public void ChangeStatus(BookStatus status)
         {
-            var canChangeStatusOfBook = CanChangeStatus(status);
-            if (canChangeStatusOfBook.IsFailure)
+            var canChangeStatusOfBook = this.CanChangeStatus(status);
+            if (!canChangeStatusOfBook.IsSuccess)
             {
                 throw new Exception(canChangeStatusOfBook.Error.Description);
             }
 
-            Status = status;
+            this.Status = status;
         }
     }
 }

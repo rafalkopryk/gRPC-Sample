@@ -1,33 +1,24 @@
 ﻿namespace BookShop.Getway.Rest.Utils
 {
-    using BookShop.Common.Utils;
     using System;
     using System.Collections.Generic;
 
-    public sealed class Envelope<T> : Envelope
-    {
-        public T Result { get; }
-
-        public Envelope(T result, Status status, IReadOnlyList<Error> errors) : base(status, errors)
-        {
-            Result = result;
-        }
-    }
+    using BookShop.Common.Utils;
 
     public class Envelope
     {
+        protected Envelope(Status status, IReadOnlyList<ErrorResult> errors)
+        {
+            this.Status = status;
+            this.Errors = errors;
+            this.TimeGenerated = DateTime.UtcNow;
+        }
+
         public Status Status { get; }
 
-        public IReadOnlyList<Error> Errors { get; }
-        
-        public DateTime TimeGenerated { get; }
+        public IReadOnlyList<ErrorResult> Errors { get; }
 
-        protected Envelope(Status status, IReadOnlyList<Error> errors)
-        {
-            Status = status;
-            Errors = errors;
-            TimeGenerated = DateTime.UtcNow;
-        }
+        public DateTime TimeGenerated { get; }
 
         public static Envelope Ok()
         {
@@ -39,14 +30,14 @@
             return new Envelope<T>(result, Status.Success, null);
         }
 
-        public static Envelope Error(params Error[] errors)
+        public static Envelope Error(params ErrorResult[] errors)
         {
             return new Envelope(Status.Fault, errors);
         }
 
         public static Envelope Error(Exception exception)
         {
-            var error = new Error(ErrorCode.Internal, exception?.Message);
+            var error = new ErrorResult(ErrorCode.Internal, exception?.Message);
             return Error(error);
         }
     }

@@ -4,27 +4,27 @@
     using System.Net;
     using System.Text.Json;
     using System.Threading.Tasks;
+
     using BookShop.Getway.Rest.Utils;
-    using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Logging;
 
     public class CustomExceptionHandler
     {
-        private readonly RequestDelegate _next;
-        private readonly ILogger _logger;
+        private readonly RequestDelegate next;
+        private readonly ILogger logger;
 
         public CustomExceptionHandler(RequestDelegate next, ILogger<CustomExceptionHandler> logger)
         {
-            _next = next;
-            _logger = logger;
+            this.next = next;
+            this.logger = logger;
         }
 
         public async Task Invoke(HttpContext httpContext)
         {
             try
             {
-                await _next(httpContext).ConfigureAwait(false);
+                await this.next(httpContext).ConfigureAwait(false);
             }
 #pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception e)
@@ -34,7 +34,7 @@
             }
             finally
             {
-                _logger.LogInformation($"Request:{httpContext.Request}|Response:{httpContext.Response}");
+                this.logger.LogInformation($"Request:{httpContext.Request}|Response:{httpContext.Response}");
             }
         }
 
@@ -44,14 +44,6 @@
             httpContext.Response.ContentType = "application/json";
             httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             return httpContext.Response.WriteAsync(json);
-        }
-    }
-
-    public static class CustomExceptionHandlerExtensions
-    {
-        public static IApplicationBuilder UseCustomExceptionHandler(this IApplicationBuilder builder)
-        {
-            return builder.UseMiddleware<CustomExceptionHandler>();
         }
     }
 }

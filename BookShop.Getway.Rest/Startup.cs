@@ -1,5 +1,9 @@
 namespace BookShop.Getway.Rest
 {
+    using System;
+    using System.Text.Json;
+    using System.Text.Json.Serialization;
+
     using BookShop.Getway.Application.Extensions;
     using BookShop.Getway.Rest.Middleware;
     using BookShop.Getway.Rest.Utils;
@@ -10,15 +14,12 @@ namespace BookShop.Getway.Rest
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Microsoft.OpenApi.Models;
-    using System;
-    using System.Text.Json;
-    using System.Text.Json.Serialization;
 
     public class Startup
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            this.Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
@@ -28,7 +29,13 @@ namespace BookShop.Getway.Rest
         {
             services.AddMemoryCache();
 
-            services.AddBookService(Configuration);
+            services.AddDistributedRedisCache(option =>
+            {
+                option.Configuration = this.Configuration["Redis:Url"];
+                option.InstanceName = "BookSkop.Getway.Rest_";
+            });
+
+            services.AddBookService(this.Configuration);
 
             services.AddMessages();
 
@@ -39,14 +46,14 @@ namespace BookShop.Getway.Rest
                     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                     options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
                 });
-            
-            services
-                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddCachingJwtBearer(options =>
-                {
-                    options.Authority = Configuration["Authentication:Auth0:Authority"];
-                    options.Audience = Configuration["Authentication:Auth0:Audience"];
-                });
+
+            //services
+            //    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            //    .AddCachingJwtBearer(options =>
+            //    {
+            //        options.Authority = this.Configuration["Authentication:Auth0:Authority"];
+            //        options.Audience = this.Configuration["Authentication:Auth0:Audience"];
+            //    });
 
             services.AddSwaggerGen(c =>
             {
@@ -58,7 +65,7 @@ namespace BookShop.Getway.Rest
                     Name = "Authorization",
                     In = ParameterLocation.Header,
                     Type = SecuritySchemeType.ApiKey,
-                    Scheme = "bearer"
+                    Scheme = "bearer",
                 });
 
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -69,11 +76,11 @@ namespace BookShop.Getway.Rest
                             Reference = new OpenApiReference
                             {
                                 Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer"
-                            }
+                                Id = "Bearer",
+                            },
                         },
                         Array.Empty<string>()
-                    }
+                    },
                 });
             });
         }
@@ -98,9 +105,9 @@ namespace BookShop.Getway.Rest
 
             app.UseRouting();
 
-            app.UseAuthentication();
+            //app.UseAuthentication();
 
-            app.UseAuthorization();
+            //app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

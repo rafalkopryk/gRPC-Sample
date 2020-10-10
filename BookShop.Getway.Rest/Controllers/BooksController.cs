@@ -1,29 +1,32 @@
 ﻿namespace BookShop.Getway.Rest.Controllers
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
     using BookShop.Getway.Application.Abstractions;
     using BookShop.Getway.Application.Messages.Commands;
     using BookShop.Getway.Application.Models.Books;
     using BookShop.Getway.Rest.Dtos;
     using BookShop.Getway.Rest.Utils;
+
     using MediatR;
+
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
 
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+    //[Authorize]
     public class BooksController : BaseController
     {
-        private readonly IBookProvider _bookService;
-        private readonly IMediator _mediator;
+        private readonly IBookProvider bookService;
+        private readonly IMediator mediator;
 
         public BooksController(IBookProvider bookService, IMediator mediator)
         {
-            _bookService = bookService;
-            _mediator = mediator;
+            this.bookService = bookService;
+            this.mediator = mediator;
         }
 
         [ProducesResponseType(typeof(Envelope<IReadOnlyList<Book>>), StatusCodes.Status200OK)]
@@ -31,11 +34,11 @@
         [HttpGet]
         public async Task<IActionResult> GetBooks()
         {
-            var result = await _bookService
+            var result = await this.bookService
                 .GetBooks()
                 .ConfigureAwait(false);
-            
-            return FromResult(result);
+
+            return this.FromResult(result);
         }
 
         [ProducesResponseType(typeof(Envelope), StatusCodes.Status200OK)]
@@ -43,11 +46,11 @@
         [HttpPost]
         public async Task<IActionResult> AddBook([FromBody] AddBookDto request)
         {
-            var result = await _mediator
+            var result = await this.mediator
                 .Send(new AddBook(request?.Title, request.ReleaseDate))
                 .ConfigureAwait(false);
-            
-            return FromResult(result);
+
+            return this.FromResult(result);
         }
 
         [ProducesResponseType(typeof(Envelope), StatusCodes.Status200OK)]
@@ -56,11 +59,11 @@
         [Route("{id}")]
         public async Task<IActionResult> ArchiveBook(int id)
         {
-            var result = await _mediator
+            var result = await this.mediator
                 .Send(new ArchiveBook(id))
                 .ConfigureAwait(false);
 
-            return FromResult(result);
+            return this.FromResult(result);
         }
 
         [ProducesResponseType(typeof(Envelope), StatusCodes.Status200OK)]
@@ -69,11 +72,11 @@
         [Route("{id}/blocking")]
         public async Task<IActionResult> LockBook(int id)
         {
-            var result = await _mediator
+            var result = await this.mediator
                 .Send(new LockBook(id))
                 .ConfigureAwait(false);
 
-            return FromResult(result);
+            return this.FromResult(result);
         }
     }
 }

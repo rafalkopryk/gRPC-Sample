@@ -1,16 +1,17 @@
 ﻿namespace BookShop.BookService.Rpc.Mappers.Books
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
     using BookShop.BookService.Domain.Domain;
     using Google.Protobuf.Collections;
     using Google.Protobuf.WellKnownTypes;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public static class BooksExtensions
     {
         public static GetBooksReply.Types.Book ToRpcModel(this Book book)
         {
-            if(book is null)
+            if (book is null)
             {
                 return null;
             }
@@ -20,7 +21,7 @@
                 Id = book.BookId,
                 Title = book.Title,
                 ReleaseDate = Timestamp.FromDateTime(book.ReleaseDate),
-                Status = book.Status?.Status.ToString()
+                Status = book.Status?.Status.ToString(),
             };
         }
 
@@ -30,7 +31,7 @@
                 .Select(x => x.ToRpcModel())
                 .Where(x => x is not null)
                 .ToList();
-            
+
             return new RepeatedField<GetBooksReply.Types.Book>() { convertedBooks };
         }
     }

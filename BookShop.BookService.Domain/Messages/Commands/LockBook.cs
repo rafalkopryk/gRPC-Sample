@@ -3,7 +3,7 @@
     public class LockBook : ICommand
     {
         public LockBook(int bookId)
-           => BookId = bookId;
+           => this.BookId = bookId;
 
         public int BookId { get; }
     }

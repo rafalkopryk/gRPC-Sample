@@ -2,6 +2,7 @@
 {
     using System.Threading;
     using System.Threading.Tasks;
+
     using BookShop.BookService.Application;
     using BookShop.BookService.Application.Handlers;
     using BookShop.BookService.Domain.Domain;
@@ -10,25 +11,25 @@
 
     public class AddBookHandler : ICommandHandler<AddBook>
     {
-        private readonly UnitOfWork _unitOfWork;
+        private readonly UnitOfWork unitOfWork;
 
         public AddBookHandler(UnitOfWork bookContext)
         {
-            _unitOfWork = bookContext;
+            this.unitOfWork = bookContext;
         }
 
         public async Task<Result> Handle(AddBook request, CancellationToken cancellationToken)
         {
-            if(request is null)
+            if (request is null)
             {
-                return Result.Failure(new Error(ErrorCode.InvalidArgument, $"{nameof(request)} is null"));
+                return Result.Failure(new ErrorResult(ErrorCode.InvalidArgument, $"{nameof(request)} is null"));
             }
 
             var book = new Book(request.Title, request.ReleaseDate);
 
-            _unitOfWork.Books.Add(book);
-            
-            await _unitOfWork.SaveChangesAsync(cancellationToken)
+            this.unitOfWork.Books.Add(book);
+
+            await this.unitOfWork.SaveChangesAsync(cancellationToken)
                 .ConfigureAwait(false);
 
             return Result.Success();

@@ -4,20 +4,16 @@
     {
         protected Result()
         {
-            IsSuccess = true;
         }
 
-        protected Result(Error error)
+        protected Result(ErrorResult error)
         {
-            IsFailure = true;
-            Error = error;
+            this.Error = error;
         }
 
-        public bool IsFailure { get; } = false;
+        public bool IsSuccess => this.Error is null;
 
-        public bool IsSuccess { get; } = false;
-
-        public Error Error { get; }
+        public ErrorResult Error { get; }
 
         public static Result Success()
         {
@@ -29,53 +25,38 @@
             return new Result<T>(value);
         }
 
-        public static Result Failure(Error error)
+        public static Result Failure(ErrorResult error)
         {
             return new Result(error);
         }
 
-        public static Result<T> Failure<T>(Error error)
+        public static Result<T> Failure<T>(ErrorResult error)
         {
             return new Result<T>(error);
         }
 
         public static Result Failure(string description)
         {
-            var error = new Error(ErrorCode.Unknown, description);
-            return Result.Failure(error);
+            var error = new ErrorResult(ErrorCode.Unknown, description);
+            return Failure(error);
         }
 
         public static Result Failure(ErrorCode code, string description)
         {
-            var error = new Error(code, description);
-            return Result.Failure(error);
+            var error = new ErrorResult(code, description);
+            return Failure(error);
         }
 
         public static Result<T> Failure<T>(ErrorCode code, string description)
         {
-            var error = new Error(code, description);
+            var error = new ErrorResult(code, description);
             return Failure<T>(error);
         }
 
         public static Result<T> Failure<T>(string description)
         {
-            var error = new Error(ErrorCode.Unknown, description);
+            var error = new ErrorResult(ErrorCode.Unknown, description);
             return Failure<T>(error);
-        }
-
-    }
-
-    public class Result<T> : Result
-    {
-        public T Value { get; }
-
-        public Result(T value) : base()
-        {
-            Value = value;
-        }
-
-        public Result(Error error) : base(error)
-        {
         }
     }
 }

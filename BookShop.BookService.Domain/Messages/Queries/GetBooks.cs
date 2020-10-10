@@ -1,7 +1,8 @@
 ﻿namespace BookShop.BookService.Domain.Messages.Queries
 {
-    using BookShop.BookService.Domain.Domain;
     using System.Collections.Generic;
+
+    using BookShop.BookService.Domain.Domain;
 
     public class GetBooks : IQuery<IReadOnlyList<Book>>
     {

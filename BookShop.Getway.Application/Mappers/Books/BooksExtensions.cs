@@ -1,10 +1,11 @@
 ﻿namespace BookShop.Getway.Application.Mappers.Books
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
     using BookShop.BookService.Rpc;
     using BookShop.Getway.Application.Models.Books;
     using Google.Protobuf.Collections;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public static class BooksExtensions
     {

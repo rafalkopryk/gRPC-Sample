@@ -1,6 +1,7 @@
 ﻿namespace BookShop.Getway.Rest.Utils
 {
     using System;
+
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.Extensions.DependencyInjection;
@@ -19,8 +20,7 @@
             return builder.AddScheme<JwtBearerOptions, CachingJwtBearerHandler>(
                     JwtBearerDefaults.AuthenticationScheme,
                     displayName: null,
-                    configureOptions: configureOptions
-            );
+                    configureOptions: configureOptions);
         }
     }
 }

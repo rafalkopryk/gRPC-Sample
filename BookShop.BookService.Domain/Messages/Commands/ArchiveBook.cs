@@ -3,7 +3,7 @@
     public class ArchiveBook : ICommand
     {
         public ArchiveBook(int bookId)
-           => BookId = bookId;
+           => this.BookId = bookId;
 
         public int BookId { get; }
     }

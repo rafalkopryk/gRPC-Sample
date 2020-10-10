@@ -1,18 +1,20 @@
 ﻿namespace BookShop.Getway.Application.Extensions
 {
-    using BookShop.Common.Utils;
-    using Grpc.Core;
     using System;
+
+    using BookShop.Common.Utils;
+
+    using Grpc.Core;
 
     public static class StatusExtensions
     {
-        public static Error ToError(this Status status)
+        public static ErrorResult ToError(this Status status)
         {
             var errorCode = Enum.TryParse<ErrorCode>(status.StatusCode.ToString(), out var errorCodeValue)
                 ? errorCodeValue
                 : ErrorCode.Unknown;
 
-            return new Error(errorCode, status.Detail);
+            return new ErrorResult(errorCode, status.Detail);
         }
     }
 }
