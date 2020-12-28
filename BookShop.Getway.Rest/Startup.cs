@@ -1,4 +1,4 @@
-namespace BookShop.Getway.Rest
+﻿namespace BookShop.Getway.Rest
 {
     using System;
     using System.Text.Json;
@@ -35,9 +35,7 @@ namespace BookShop.Getway.Rest
                 option.InstanceName = "BookSkop.Getway.Rest_";
             });
 
-            services.AddBookService(this.Configuration);
-
-            services.AddMessages();
+            services.AddApplication(this.Configuration);
 
             services
                 .AddControllers()
@@ -47,14 +45,13 @@ namespace BookShop.Getway.Rest
                     options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
                 });
 
-            //services
+            // services
             //    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             //    .AddCachingJwtBearer(options =>
             //    {
             //        options.Authority = this.Configuration["Authentication:Auth0:Authority"];
             //        options.Audience = this.Configuration["Authentication:Auth0:Audience"];
             //    });
-
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
@@ -105,10 +102,9 @@ namespace BookShop.Getway.Rest
 
             app.UseRouting();
 
-            //app.UseAuthentication();
+            // app.UseAuthentication();
 
-            //app.UseAuthorization();
-
+            // app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

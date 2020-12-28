@@ -17,7 +17,7 @@
 
     [ApiController]
     [Route("api/[controller]")]
-    //[Authorize]
+    // [Authorize]
     public class BooksController : BaseController
     {
         private readonly IBookProvider bookService;
@@ -35,8 +35,7 @@
         public async Task<IActionResult> GetBooks()
         {
             var result = await this.bookService
-                .GetBooks()
-                .ConfigureAwait(false);
+                .GetBooks();
 
             return this.FromResult(result);
         }
@@ -44,11 +43,10 @@
         [ProducesResponseType(typeof(Envelope), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Envelope), StatusCodes.Status400BadRequest)]
         [HttpPost]
-        public async Task<IActionResult> AddBook([FromBody] AddBookDto request)
+        public async Task<IActionResult> AddBook([FromBody] BookInput request)
         {
             var result = await this.mediator
-                .Send(new AddBook(request?.Title, request.ReleaseDate))
-                .ConfigureAwait(false);
+                .Send(new AddBook(request?.Title, request.ReleaseDate));
 
             return this.FromResult(result);
         }
@@ -60,8 +58,7 @@
         public async Task<IActionResult> ArchiveBook(int id)
         {
             var result = await this.mediator
-                .Send(new ArchiveBook(id))
-                .ConfigureAwait(false);
+                .Send(new ArchiveBook(id));
 
             return this.FromResult(result);
         }
@@ -73,8 +70,7 @@
         public async Task<IActionResult> LockBook(int id)
         {
             var result = await this.mediator
-                .Send(new LockBook(id))
-                .ConfigureAwait(false);
+                .Send(new LockBook(id));
 
             return this.FromResult(result);
         }

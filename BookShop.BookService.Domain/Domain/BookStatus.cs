@@ -1,11 +1,8 @@
-﻿namespace BookShop.BookService.Domain.ValueObjects
+﻿namespace BookShop.BookService.Domain.Domain
 {
     using System;
-    using System.Collections.Generic;
 
-    using CSharpFunctionalExtensions;
-
-    public partial class BookStatus : ValueObject
+    public record BookStatus
     {
         protected BookStatus(StatusBookEnum status)
         {
@@ -19,15 +16,10 @@
 
         public static BookStatus Archive => new (StatusBookEnum.Archive);
 
-        public StatusBookEnum Status { get; protected set; }
+        public StatusBookEnum Status { get; init; }
 
-        public DateTime StatusDate { get; protected set; }
+        public DateTime StatusDate { get; init; }
 
         public bool IsArchive => this.Status == StatusBookEnum.Archive;
-
-        protected override IEnumerable<object> GetEqualityComponents()
-        {
-            yield return this.Status;
-        }
     }
 }

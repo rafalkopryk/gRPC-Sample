@@ -21,8 +21,7 @@
         public async override Task<GetBooksReply> GetBooks(GetBooksRequest request, ServerCallContext context)
         {
             var getBooksResult = await this.mediator
-                .Send(new GetBooks(), cancellationToken: context.CancellationToken)
-                .ConfigureAwait(false);
+                .Send(new GetBooks(), cancellationToken: context.CancellationToken);
 
             if (!getBooksResult.IsSuccess)
             {
@@ -43,8 +42,7 @@
             var addBookCommand = new AddBook(request.Title, request.ReleaseDate.ToDateTime());
 
             var addBookResult = await this.mediator
-                .Send(addBookCommand, cancellationToken: context.CancellationToken)
-                .ConfigureAwait(false);
+                .Send(addBookCommand, cancellationToken: context.CancellationToken);
 
             if (!addBookResult.IsSuccess)
             {
@@ -59,8 +57,7 @@
             var archiveBookCommand = new ArchiveBook(request.Id);
 
             var archiveBookResult = await this.mediator
-                .Send(archiveBookCommand, context.CancellationToken)
-                .ConfigureAwait(false);
+                .Send(archiveBookCommand, context.CancellationToken);
 
             if (!archiveBookResult.IsSuccess)
             {
@@ -75,8 +72,7 @@
             var lockBookCommand = new LockBook(request.Id);
 
             var lockBookResult = await this.mediator
-                .Send(lockBookCommand, context.CancellationToken)
-                .ConfigureAwait(false);
+                .Send(lockBookCommand, context.CancellationToken);
 
             if (!lockBookResult.IsSuccess)
             {

@@ -2,23 +2,35 @@ version: '3.4'
 
 services:
   bookshop.bookservice.rpc:
-    image: ${DOCKER_REGISTRY-}bookshopbookservicerpc
-    container_name: BookShop.BookService
+    image: ${DOCKER_REGISTRY-}bookshop.bookservice
+    container_name: bookshop.bookservice
     networks:
-      - bookshop-container-network
+    - bookshopnetwork
     build:
       context: .
       dockerfile: BookShop.BookService.Rpc/Dockerfile
 
   bookshop.getway.rest:
-    image: ${DOCKER_REGISTRY-}bookshopgetwayrest
-    container_name: BookShop.Getway
+    image: ${DOCKER_REGISTRY-}bookshop.getway
+    container_name: bookshop.getway
     networks:
-      - bookshop-container-network
+    - bookshopnetwork
+    - redisnetwork
     build:
       context: .
       dockerfile: BookShop.Getway.Rest/Dockerfile
+    environment:
+        Redis__Url: redis
+        ExternalService__BookService__Url: https://bookshop.bookservice
+        ExternalService__BookService__CacheTimeInSeconds: 5
+  redis:
+    image: redis
+    container_name: redis.local
+    networks:
+    - redisnetwork
 
 networks:
-    bookshop-container-network:  
-        external: true
+  bookshopnetwork:
+    driver: bridge
+  redisnetwork:
+    driver: bridge

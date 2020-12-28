@@ -2,7 +2,6 @@
 {
     using System;
 
-    using BookShop.BookService.Domain.ValueObjects;
     using BookShop.Common.Utils;
 
     public class Book

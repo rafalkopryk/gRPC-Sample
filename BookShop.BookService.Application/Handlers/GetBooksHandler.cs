@@ -4,11 +4,11 @@
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+
     using BookShop.BookService.Domain.Domain;
     using BookShop.BookService.Domain.Messages.Queries;
     using BookShop.Common.Utils;
     using Microsoft.EntityFrameworkCore;
-    using static BookShop.BookService.Domain.ValueObjects.BookStatus;
 
     public class GetBooksHandler : IQueryHandler<GetBooks, IReadOnlyList<Book>>
     {
@@ -25,8 +25,7 @@
                 .Books
                 .Where(x => x.Status.Status != StatusBookEnum.Archive)
                 .AsNoTracking()
-                .ToListAsync()
-                .ConfigureAwait(false) as IReadOnlyList<Book>;
+                .ToListAsync() as IReadOnlyList<Book>;
 
             return Result.Success(books);
         }

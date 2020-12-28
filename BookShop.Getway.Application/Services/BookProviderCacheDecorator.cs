@@ -29,17 +29,17 @@
         public async Task<Result<IReadOnlyList<Book>>> GetBooks()
         {
             const string CacheKey = "BookService_GetBooks";
-            var result = await this.distributedCache.GetAsync<Result<IReadOnlyList<Book>>>(CacheKey).ConfigureAwait(false);
+            var result = await this.distributedCache.GetAsync<Result<IReadOnlyList<Book>>>(CacheKey);
             if (result is null)
             {
-                var cacheTimeInMinutes = this.configuration.GetValue<int>("BookServiceCacheTimeInMinutes");
+                var cacheTimeInMinutes = this.configuration.GetValue<int>("ExternalService:BookService:CacheTimeInSeconds");
                 var cacheEntryOptions = new DistributedCacheEntryOptions
                 {
-                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(cacheTimeInMinutes),
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(cacheTimeInMinutes),
                 };
 
-                result = await this.bookProvider.GetBooks().ConfigureAwait(false);
-                await this.distributedCache.SetAsync(CacheKey, result, cacheEntryOptions).ConfigureAwait(false);
+                result = await this.bookProvider.GetBooks();
+                await this.distributedCache.SetAsync(CacheKey, result, cacheEntryOptions);
 
                 return result;
             }

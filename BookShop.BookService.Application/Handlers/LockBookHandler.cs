@@ -2,8 +2,9 @@
 {
     using System.Threading;
     using System.Threading.Tasks;
+
+    using BookShop.BookService.Domain.Domain;
     using BookShop.BookService.Domain.Messages.Commands;
-    using BookShop.BookService.Domain.ValueObjects;
     using BookShop.Common.Utils;
 
     public class LockBookHandler : ICommandHandler<LockBook>
@@ -23,8 +24,7 @@
             }
 
             var book = await this.unitOfWork.Books
-                .FindAsync(new object[] { request.BookId }, cancellationToken)
-                .ConfigureAwait(false);
+                .FindAsync(new object[] { request.BookId }, cancellationToken);
 
             if (book is null)
             {
@@ -39,8 +39,7 @@
 
             book.ChangeStatus(BookStatus.Unavailable);
 
-            await this.unitOfWork.SaveChangesAsync(cancellationToken)
-                .ConfigureAwait(false);
+            await this.unitOfWork.SaveChangesAsync(cancellationToken);
 
             return Result.Success();
         }

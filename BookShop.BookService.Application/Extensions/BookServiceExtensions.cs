@@ -5,7 +5,7 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
 
-    public static class BookServiceConfig
+    public static class BookServiceExtensions
     {
         public static void AddApplication(this IServiceCollection services)
         {

@@ -29,8 +29,7 @@
 
             this.unitOfWork.Books.Add(book);
 
-            await this.unitOfWork.SaveChangesAsync(cancellationToken)
-                .ConfigureAwait(false);
+            await this.unitOfWork.SaveChangesAsync(cancellationToken);
 
             return Result.Success();
         }

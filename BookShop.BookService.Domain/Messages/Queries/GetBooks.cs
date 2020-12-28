@@ -4,7 +4,5 @@
 
     using BookShop.BookService.Domain.Domain;
 
-    public class GetBooks : IQuery<IReadOnlyList<Book>>
-    {
-    }
+    public record GetBooks : IQuery<IReadOnlyList<Book>>;
 }
