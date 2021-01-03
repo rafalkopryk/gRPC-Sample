@@ -17,13 +17,13 @@
         {
         }
 
-        public int BookId { get; protected set; }
+        public int BookId { get; set; }
 
-        public string Title { get; protected set; }
+        public string Title { get; set; }
 
-        public BookStatus Status { get; protected set; }
+        public BookStatus Status { get; set; }
 
-        public DateTime ReleaseDate { get; protected set; }
+        public DateTime ReleaseDate { get; set; }
 
         public Result CanChangeStatus(BookStatus status)
         {

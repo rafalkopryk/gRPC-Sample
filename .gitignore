@@ -339,3 +339,4 @@ ASALocalRun/
 # BeatPulse healthcheck temp database
 healthchecksdb
 /bookshop.ruleset
+/elasticsearchdata/nodes/0

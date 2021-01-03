@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+
     using BookShop.BookService.Rpc;
     using BookShop.Common.Utils;
     using BookShop.Getway.Application.Abstractions;

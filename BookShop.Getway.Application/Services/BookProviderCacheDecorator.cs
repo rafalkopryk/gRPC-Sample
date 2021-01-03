@@ -32,10 +32,10 @@
             var result = await this.distributedCache.GetAsync<Result<IReadOnlyList<Book>>>(CacheKey);
             if (result is null)
             {
-                var cacheTimeInMinutes = this.configuration.GetValue<int>("ExternalService:BookService:CacheTimeInSeconds");
+                var cacheTimeInSeconds = this.configuration.GetValue<int>("ExternalService:BookService:CacheTimeInSeconds");
                 var cacheEntryOptions = new DistributedCacheEntryOptions
                 {
-                    AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(cacheTimeInMinutes),
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(cacheTimeInSeconds),
                 };
 
                 result = await this.bookProvider.GetBooks();
